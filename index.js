@@ -194,11 +194,13 @@ function create_game(size) {
 
       // Get the value for the cell from the randomize list of values
       let value = ramdom_numbers[row_number * size + column_number];
+      let text = value;
       let cell_type = "number";
 
       // If no value (last cell), write "EMPTY"
       if (value === undefined) {
         value = "EMPTY";
+        text = "";
         cell_type = "empty";
       }
 
@@ -211,7 +213,7 @@ function create_game(size) {
       cell.setAttribute("cell_type", cell_type);
       cell.classList.add("cell");
       // cell.classList.add(cell_type);
-      cell.innerHTML = value;
+      cell.innerHTML = text;
       cell.addEventListener("click", move_cell);
       // console.log(`row: ${row_number+1} column: ${column_number+1} value: ${value}`);
 
@@ -233,13 +235,14 @@ function create_game(size) {
   };
 }
 
-function main() {
-  var event = new Event('change');
-  document.getElementById("dropdown").dispatchEvent(event);
+function create_new_game() {
+  let size = document.getElementById("dropdown").value;
+  console.log(`Creating new game with size ${size}`);
+  create_game(size);
 }
 
 // Wait all the page elements to be loaded
 document.addEventListener("DOMContentLoaded", function() {
   // Call the main funcion
-  main();
+  create_new_game();
 });

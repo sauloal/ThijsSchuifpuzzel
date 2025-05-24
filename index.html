@@ -15,7 +15,7 @@
 
 		<div id="selector">
 			<label for="dropdown">Select a game size:</label>
-			<select id="dropdown" onchange="create_game(this.value)">
+			<select id="dropdown" onchange="create_new_game()">
 				<option value="2">2x2</option>
 				<option value="4" selected="true">4x4</option>
 				<option value="6">6x6</option>
@@ -25,6 +25,10 @@
 				<option value="14">14x14</option>
 				<option value="16">16x16</option>
 			</select>
+		</div>
+
+		<div id="new">
+			<button id="new_game" onclick="create_new_game()">New Game</button>
 		</div>
 
 		<div id="content"></div>

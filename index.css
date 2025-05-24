@@ -1,0 +1,12 @@
+td[cell_type="number"] {
+  text-align: center;
+  border-color: #000;
+  border-style: solid;
+  border-width: 3px;
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.finished {
+  background-color: #c8e6c9;
+}

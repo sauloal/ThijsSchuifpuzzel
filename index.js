@@ -33,7 +33,7 @@ function get_cell_info(cell) {
 
 function is_ordered() {
   let cells = get_cells();
-  console.log(`cells: ${cells.length} ${cells}`);
+  // console.log(`cells: ${cells.length} ${cells}`);
 
   for (let i = 0; i < cells.length-1; i++) {
     let cell = cells[i];
@@ -52,7 +52,7 @@ function is_ordered() {
     }
   }
 
-  console.log("All cells are in the correct position");
+  // console.log("All cells are in the correct position");
 
   for (let i = 0; i < cells.length; i++) {
     let cell = cells[i];
@@ -72,7 +72,7 @@ function get_neighboring_cells(cell) {
   let neighbours = [];
 
   let [row_number, column_number, position, value, size, cell_type, text, is_empty, is_match] = get_cell_info(cell);
-  console.log(`Getting neighbours for cell at row ${row_number}, column ${column_number}`);
+  // console.log(`Getting neighbours for cell at row ${row_number}, column ${column_number}`);
 
   if (row_number > 1) {
     // Has top neighbour
@@ -99,7 +99,7 @@ function get_neighboring_cells(cell) {
     neighbours.push(right_neighbour);
   }
 
-  console.log(`Neighbours found: ${neighbours.length} ${neighbours}`);
+  // console.log(`Neighbours found: ${neighbours.length} ${neighbours}`);
 
   return neighbours;
 }
@@ -108,12 +108,12 @@ function move_cell(event) {
   // Get the clicked cell
 
   let cell = event.srcElement;
-  console.log(event.target);
-  console.log(`Cell clicked: ${cell}`);
-  console.log(`Cell clicked: ${cell.getAttribute("row")}, ${cell.getAttribute("column")}, ${cell.getAttribute("position")}, ${cell.getAttribute("value")}, ${cell.getAttribute("size")}, ${cell.getAttribute("cell_type")}`);
+  // console.log(event.target);
+  // console.log(`Cell clicked: ${cell}`);
+  // console.log(`Cell clicked: ${cell.getAttribute("row")}, ${cell.getAttribute("column")}, ${cell.getAttribute("position")}, ${cell.getAttribute("value")}, ${cell.getAttribute("size")}, ${cell.getAttribute("cell_type")}`);
 
   let [row_number, column_number, position, value, size, cell_type, text, is_empty, is_match] = get_cell_info(cell);
-  console.log(`Move cell: row ${row_number}, column ${column_number}, position ${position}, value ${value}, size ${size}, cell_type ${cell_type}, is_empty ${is_empty}, is_match ${is_match}`);
+  // console.log(`Move cell: row ${row_number}, column ${column_number}, position ${position}, value ${value}, size ${size}, cell_type ${cell_type}, is_empty ${is_empty}, is_match ${is_match}`);
 
   if (is_empty) {
     console.warn("Clicked cell is empty, nothing to move.");
@@ -122,15 +122,15 @@ function move_cell(event) {
 
   let neighbours = get_neighboring_cells(cell);
   let found_empty_neighbour = false;
-  console.log(`Found ${neighbours.length} neighbours ${neighbours}`);
+  // console.log(`Found ${neighbours.length} neighbours ${neighbours}`);
 
   for (let neighbour of neighbours) {
-    console.log(`Neighbour cell: ${neighbour}`);
+    // console.log(`Neighbour cell: ${neighbour}`);
     
     let [neighbour_row_number, neighbour_column_number, neighbour_position, neighbour_value, neighbour_size, neighbour_cell_type, neighbour_text, neighbour_is_empty, neighbour_is_match] = get_cell_info(neighbour);
 
     if (neighbour_is_empty) {
-      console.log(`Found empty neighbour at row ${neighbour_row_number}, column ${neighbour_column_number}`);
+      // console.log(`Found empty neighbour at row ${neighbour_row_number}, column ${neighbour_column_number}`);
       neighbour.setAttribute("value", value);
       neighbour.setAttribute("cell_type", cell_type);
       neighbour.innerHTML = text;
@@ -138,7 +138,7 @@ function move_cell(event) {
       cell.setAttribute("cell_type", neighbour_cell_type);
       cell.innerHTML = neighbour_text;
       found_empty_neighbour = true;
-      console.log(`Moved cell from row ${row_number}, column ${column_number} to empty neighbour at row ${neighbour_row_number}, column ${neighbour_column_number}`);
+      // console.log(`Moved cell from row ${row_number}, column ${column_number} to empty neighbour at row ${neighbour_row_number}, column ${neighbour_column_number}`);
     }
   }
 
@@ -155,10 +155,11 @@ function move_cell(event) {
   }
 }
 
-function main(size) {
-  console.log("Hello, World!");
+function create_game(size) {
+  console.log("Creating game!");
 
   let content = document.getElementById("content");
+  content.innerHTML = "";
 
   // console.log(content);
 
@@ -212,7 +213,7 @@ function main(size) {
       // cell.classList.add(cell_type);
       cell.innerHTML = value;
       cell.addEventListener("click", move_cell);
-      console.log(`row: ${row_number+1} column: ${column_number+1} value: ${value}`);
+      // console.log(`row: ${row_number+1} column: ${column_number+1} value: ${value}`);
 
       // Add cell to row
       row.appendChild(cell);
@@ -228,14 +229,17 @@ function main(size) {
   // Check if the table is ordered
   if (is_ordered()) {
     console.warn("The table is ordered. rebuilding it...");
-    content.innerHTML = "";
-    main(size);
+    create_game(size);
   };
+}
+
+function main() {
+  var event = new Event('change');
+  document.getElementById("dropdown").dispatchEvent(event);
 }
 
 // Wait all the page elements to be loaded
 document.addEventListener("DOMContentLoaded", function() {
   // Call the main funcion
-  let size = 4;
-  main(size);
+  main();
 });
